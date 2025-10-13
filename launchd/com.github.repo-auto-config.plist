@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.github.repo-auto-config</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/jleechan/bin/github-repo-auto-config.sh</string>
+    </array>
+
+    <key>StartInterval</key>
+    <integer>1800</integer>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/jleechan/.github-repo-auto-config-stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/jleechan/.github-repo-auto-config-stderr.log</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/jleechan/bin</string>
+    </dict>
+</dict>
+</plist>

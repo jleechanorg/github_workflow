@@ -1,0 +1,38 @@
+#!/bin/bash
+# gh CLI extension to automatically enable allow_update_branch for new repos
+# Usage: gh create-repo-auto [OPTIONS] <repo-name>
+# All options are passed directly to `gh repo create`
+
+set -e
+
+# Color codes for output
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+echo -e "${BLUE}Creating repository with auto-update-branch enabled...${NC}"
+echo ""
+
+# Create the repo and capture the output
+output=$(gh repo create "$@" 2>&1)
+echo "$output"
+
+# Extract the repository name from the output
+# Format is typically: ✓ Created repository owner/repo-name on GitHub
+repo_full_name=$(echo "$output" | grep -oE '[a-zA-Z0-9_-]+/[a-zA-Z0-9_.-]+' | head -1)
+
+if [ -z "$repo_full_name" ]; then
+    echo "Warning: Could not determine repository name from output. Skipping auto-configuration."
+    exit 0
+fi
+
+echo ""
+echo -e "${BLUE}Enabling 'allow_update_branch' setting...${NC}"
+
+# Enable the allow_update_branch setting
+if gh api --method PATCH "/repos/$repo_full_name" -f allow_update_branch=true > /dev/null 2>&1; then
+    echo -e "${GREEN}✓ Successfully enabled 'Always suggest updating pull request branches'${NC}"
+    echo -e "${GREEN}✓ Repository $repo_full_name is fully configured!${NC}"
+else
+    echo "Warning: Failed to enable allow_update_branch setting. You may need to enable it manually."
+fi
