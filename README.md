@@ -24,6 +24,37 @@ cd github_workflow
 ./install.sh
 ```
 
+### Rebuild the Codex Web Container Environment
+
+Use the dedicated replication script when you need a fresh workstation that matches the Codex Web container toolchain (Ubuntu 24.04 base image, language runtimes, and CLI helpers).
+
+```bash
+# Run as root or with sudo
+sudo TARGET_USER="$(whoami)" ./bin/setup-codex-web.sh
+```
+
+What the script configures:
+
+- System dependencies (build-essential, git, ripgrep, jq, etc.) via `apt`
+- `pyenv` with CPython 3.10.17, 3.11.12, 3.12.10, and 3.13.3 (global default `3.12.10`)
+- `pipx` packages: `clang-format`, `clang-tidy`, `cmakelang`, `cpplint`, `poetry`, and `uv`
+- `nvm` with Node.js 20.19.4 plus Corepack-managed `pnpm 10.5.2` and `yarn 4.9.4`
+- `rustup` pinned to Rust 1.89.0
+- `mise` with Bun 1.2.14, Erlang 27.1.2, Elixir 1.18.3-otp-27, Go 1.24.3, golangci-lint 2.1.6, Gradle 8.14.3, Java 21.0.2, Maven 3.9.10, PHP 8.4.12, Ruby 3.4.4, and Swift 6.1
+- Shell exports mirroring the Codex Web container (`CODEX_ENV_*` variables, PATH hooks for pyenv/nvm/rust/mise)
+
+Set the optional `TARGET_USER` environment variable when invoking the script to install everything for a specific non-root account.
+
+#### Verify the replication matches Codex Web
+
+The environment manifest that drives the installer lives in [`bin/codex-web-manifest.sh`](bin/codex-web-manifest.sh). After running the installer, execute the verification helper (inside a Codex Web shell or a fresh login after installation) to compare your machine against the reference Codex Web container:
+
+```bash
+bin/verify-codex-web.sh
+```
+
+The script checks the OS fingerprint, apt packages, pyenv runtimes, pipx utilities, Node/Corepack, rustup, mise-managed toolchains, and the Codex-specific shell exports. A passing run confirms you are matching the Codex Web environment byte-for-byte.
+
 ### Manual Installation
 
 1. **Copy scripts to your bin directory:**
@@ -87,7 +118,10 @@ To enable the setting for all existing repositories:
 github_workflow/
 ├── bin/
 │   ├── gh-create-repo-auto          # CLI wrapper for repo creation
-│   └── github-repo-auto-config.sh   # Background monitoring script
+│   ├── github-repo-auto-config.sh   # Background monitoring script
+│   ├── codex-web-manifest.sh        # Shared Codex Web toolchain manifest
+│   ├── setup-codex-web.sh           # Rebuild the Codex Web container toolchain
+│   └── verify-codex-web.sh          # Validate a machine against Codex Web
 ├── launchd/
 │   └── com.github.repo-auto-config.plist  # macOS LaunchAgent config
 ├── install.sh                        # Quick installation script
