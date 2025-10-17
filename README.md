@@ -36,7 +36,7 @@ sudo TARGET_USER="$(whoami)" ./bin/setup-codex-web.sh
 What the script configures:
 
 - System dependencies (build-essential, git, ripgrep, jq, etc.) via `apt`
-- `pyenv` with CPython 3.10.17, 3.11.12, 3.12.10, and 3.13.3 (global alias `3.12`)
+- `pyenv` with CPython 3.10.17, 3.11.12, 3.12.10, and 3.13.3 (global alias `3.12.10`)
 - `pipx` packages: `clang-format`, `clang-tidy`, `cmakelang`, `cpplint`, `poetry`, and `uv`
 - `nvm` with Node.js 20.19.4 plus Corepack-managed `pnpm 10.5.2` and `yarn 4.9.4`
 - `rustup` pinned to Rust 1.89.0

@@ -132,9 +132,9 @@ fi
 
 for tool in "${CODEX_WEB_MISE_TOOL_NAMES[@]}"; do
   version="${CODEX_WEB_MISE_TOOLS[$tool]}"
-  run_as_user "~/.local/bin/mise install $tool@$version"
+  run_as_user "$TARGET_HOME/.local/bin/mise install $tool@$version"
 done
-run_as_user "~/.local/bin/mise reshim"
+run_as_user "$TARGET_HOME/.local/bin/mise reshim"
 
 env_exports_block=""
 for key in "${CODEX_WEB_ENV_EXPORT_KEYS[@]}"; do

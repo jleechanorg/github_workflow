@@ -34,6 +34,7 @@ declare -gra CODEX_WEB_APT_PACKAGES=(
   libnss3-dev
   pkg-config
   software-properties-common
+  python3-pip
   pipx
 )
 
@@ -44,7 +45,7 @@ declare -gra CODEX_WEB_PYTHON_VERSIONS=(
   3.12.10
   3.13.3
 )
-declare -gr CODEX_WEB_PYTHON_GLOBAL="3.12"
+declare -gr CODEX_WEB_PYTHON_GLOBAL="3.12.10"
 
 # Pipx packages keyed by package name -> version string.
 declare -gr CODEX_WEB_PIPX_PYTHON="3.12.10"
